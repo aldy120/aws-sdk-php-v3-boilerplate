@@ -19,11 +19,11 @@ $client = new SesV2Client([
 
 // Replace sender@example.com with your "From" address.
 // This address must be verified with Amazon SES.
-$sender_email = 'hello@chenlich.myinstance.com';
+$sender_email = <SENDER_EMAIL>;
 
 // Replace these sample addresses with the addresses of your recipients. If
 // your account is still in the sandbox, these addresses must be verified.
-$recipient_emails = ['aldy12345@gmail.com','chenlich@amazon.com'];
+$recipient_emails = [<RECIPIENT_EMAIL_1>, <RECIPIENT_EMAIL_2];
 
 // Specify a configuration set. If you do not want to use a configuration
 // set, comment the following variable, and the
