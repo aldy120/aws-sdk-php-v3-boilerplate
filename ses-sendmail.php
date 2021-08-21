@@ -19,50 +19,48 @@ $client = new SesV2Client([
 
 // Replace sender@example.com with your "From" address.
 // This address must be verified with Amazon SES.
-$sender_email = <SENDER_EMAIL>;
+$sender_email = <EMAIL_SNEDER_ADDRESS>;
 
 // Replace these sample addresses with the addresses of your recipients. If
 // your account is still in the sandbox, these addresses must be verified.
-$recipient_emails = [<RECIPIENT_EMAIL_1>, <RECIPIENT_EMAIL_2];
-
-// Specify a configuration set. If you do not want to use a configuration
-// set, comment the following variable, and the
-// 'ConfigurationSetName' => $configuration_set argument below.
-// $configuration_set = 'ConfigSet';
-
-$subject = 'Amazon SES test (AWS SDK for PHP)';
-$plaintext_body = 'This email was sent with Amazon SES using the AWS SDK for PHP.' ;
-$html_body =  '<h1>AWS Amazon Simple Email Service Test Email</h1>'.
-              '<p>This email was sent with <a href="https://aws.amazon.com/ses/">'.
-              'Amazon SES</a> using the <a href="https://aws.amazon.com/sdk-for-php/">'.
-              'AWS SDK for PHP</a>.</p>';
-$char_set = 'UTF-8';
+$recipient_emails = [<EMAIL_RECIPIENT_ADDRESS_1>, <EMAIL_RECIPIENT_ADDRESS_2>];
 
 try {
-    $result = $client->sendEmail([
-        'Content' => [ // REQUIRED
-            'Simple' => [
-                'Body' => [ // REQUIRED
-                    'Html' => [
-                        'Charset' => $char_set,
-                        'Data' => $html_body, // REQUIRED
+    $result = $client->sendEmail(
+        [
+            'Content' => [ // REQUIRED
+                'Simple' => [
+                    'Body' => [ // REQUIRED
+                        'Html' => [
+                            'Charset' => 'utf-8',
+                            'Data' => '<h1>Email Test</h1>
+    <p>This email was sent through the
+     class.</p>', // REQUIRED
+                        ],
+                        'Text' => [
+                            'Charset' => 'utf-8',
+                            'Data' => '111111', // REQUIRED
+                        ],
                     ],
-                    'Text' => [
-                        'Charset' => $char_set,
-                        'Data' => $html_body, // REQUIRED
+                    'Subject' => [ // REQUIRED
+                        'Charset' => 'utf-8',
+                        'Data' => 'ads two', // REQUIRED
                     ],
                 ],
-                'Subject' => [ // REQUIRED
-                    'Charset' => $char_set,
-                    'Data' => $subject, // REQUIRED
+            ],
+            'Destination' => [
+                'ToAddresses' => $recipient_emails,
+            ],
+            'EmailTags' => [
+                [
+                    'Name' => 'ses', // REQUIRED
+                    'Value' => 'man', // REQUIRED
                 ],
-            ]
-        ],
-        'Destination' => [
-            'ToAddresses' => $recipient_emails,
-        ],
-        'FromEmailAddress' => $sender_email
-    ]);
+            ],
+            'FromEmailAddress' => $sender_email
+        ]
+    );
+    
     $messageId = $result['MessageId'];
     echo("Email sent! Message ID: $messageId"."\n");
 } catch (AwsException $e) {
